@@ -1,0 +1,401 @@
+---
+import Site from '../layouts/Site.astro';
+
+const features = [
+  { title: 'Measure with one hand', text: 'Big numbers, a keyboard strip and guided series that wait for each key.' },
+  { title: 'Reads the curve for you', text: 'Damper and pedal, let-off in the window, friction by section and keys that stand out from their neighbours.' },
+  { title: 'Your targets', text: 'Start from factory specs and shape ranges or slopes key by key.' },
+  { title: 'Before and after', text: 'Several runs per piano, compared in the charts, per key and as a table of changes.' },
+  { title: 'Calibrated to test weights', text: 'Measure a few keys with brass weights once. Every reading is then shown the way weights would read it.' },
+  { title: 'Same files as before', text: 'Opens and saves the JSON and CSV files of the original interface.' },
+];
+
+const install = [
+  {
+    title: 'iPhone and iPad',
+    steps: [
+      'Install the free app <b>Userscripts</b> from the App Store.',
+      'In the Safari settings, turn on the Userscripts extension and allow it on all websites.',
+      'Open the userscript link below in Safari. Userscripts offers to install it. If nothing appears, tap the extension button in the address bar.',
+    ],
+  },
+  {
+    title: 'Android',
+    steps: ['Install Firefox and add the extension <b>Violentmonkey</b> or <b>Tampermonkey</b>.', 'Open the userscript link below in Firefox and confirm the install.'],
+  },
+  {
+    title: 'Computer',
+    steps: [
+      'Chrome, Edge or Firefox: add <b>Violentmonkey</b> or <b>Tampermonkey</b>. Safari on a Mac: use the <b>Userscripts</b> app.',
+      'Open the userscript link below and confirm the install. Chrome may ask you to allow user scripts in the extension details.',
+    ],
+  },
+];
+
+const piano = [
+  'Switch the KMD on in WiFi mode: hold the top button while switching on and let go at <b>WiFi mode</b>.',
+  'Join the WiFi <b>KMD-…</b> with the password from the KMD manual. Stay connected even though there is no internet.',
+  'Open <code>http://192.168.1.67</code> in the browser. KMDashboard appears instead of the original interface.',
+];
+
+const safety = [
+  { title: 'It listens', text: 'Readings arrive from the KMD on their own. KMDashboard only asks for the settings when you open them.' },
+  { title: 'Only known commands', text: 'It can send exactly the commands of the original interface, in the same format. Anything else is blocked in the code.' },
+  { title: 'Changes need you', text: 'Settings only after they were read from the KMD, only what you changed, with a summary first. Sensor calibration and factory reset need two confirmations.' },
+  { title: 'Nothing on the device', text: 'No firmware, no install on the KMD. Remove the userscript and everything is as before.' },
+  { title: 'Data stays with you', text: 'Pianos and runs live in your browser. Save a file now and then as a backup.' },
+  { title: 'Charge carefully', text: 'Only use the supplied 5 V charger. The manual warns that other chargers can damage the KMD and are not covered by the warranty.' },
+];
+
+const faq = [
+  { q: 'Why a userscript and not an app?', a: 'On the KMD WiFi there is no internet, and Safari does not let secure websites talk to the KMD. Running inside the KMD’s own page solves both. No app store, no account.' },
+  { q: 'Does it change anything on my KMD?', a: 'Only when you change settings, calibrate the sensor or restore factory settings yourself, each with confirmation. Nothing is installed on the device.' },
+  { q: 'Why do my values differ from test weights?', a: 'The KMD averages over 2 to 4 mm of key travel at constant speed. Technicians report down weight a few grams higher and friction up to 6 to 8 g higher, while balance agrees. Calibrate with test weights once and KMDashboard converts all readings.' },
+  { q: 'What does the damper warning mean?', a: 'Touchweight is usually measured with the right pedal pressed. If it is not, the damper shows up as a step in the curve and can reach into the measuring window, so down and up weight read too high.' },
+  { q: 'Where is my data?', a: 'In your browser. Save a file now and then. It also opens in the original interface.' },
+  { q: 'Can I still use the original interface?', a: 'Yes. Piano tab, then Open original interface, or add <code>#original</code> to the address. Reload the page to come back.' },
+  { q: 'Which pianos have targets built in?', a: 'Steinway grands and uprights from New York and Hamburg, other makers where factory values are published, and general values for grands and uprights. Everything can be edited.' },
+  { q: 'Does it work on iPad or a laptop?', a: 'Yes. On a wide screen you see the whole keyboard, the values and a large curve side by side. The arrow keys move between keys.' },
+];
+---
+
+<Site title="KMDashboard">
+  <main>
+    <section class="hero wrap">
+      <div class="hero-text">
+        <p class="eyebrow">For the Renner Key Measuring Device</p>
+        <h1>The KMD, made for your phone.</h1>
+        <p class="lead">KMDashboard replaces the built-in interface of the Renner Key Measuring Device with a calm view for one hand, and a roomy one on a laptop. Guided measuring, clear hints and before and after, right at the piano.</p>
+        <div class="actions">
+          <a class="button primary" href="/demo/">Try the demo</a>
+          <a class="button" href="#install">Install</a>
+        </div>
+        <p class="small">Works offline on the KMD WiFi. Nothing is installed on the KMD.</p>
+      </div>
+      <div class="phone" aria-hidden="true">
+        <iframe src="/demo/" title="KMDashboard demo" loading="lazy" tabindex="-1"></iframe>
+      </div>
+    </section>
+
+    <div class="keys" aria-hidden="true">
+      <svg width="100%" height="64">
+        <defs>
+          <pattern id="octave" width="168" height="64" patternUnits="userSpaceOnUse">
+            <rect width="168" height="64" style="fill: var(--key-white)" />
+            {[1, 2, 3, 4, 5, 6, 7].map((i) => <line x1={i * 24 - 0.5} x2={i * 24 - 0.5} y1="0" y2="64" style="stroke: var(--border)" />)}
+            {[17, 41, 89, 113, 137].map((x) => <rect x={x} width="14" height="38" style="fill: var(--key-black)" />)}
+          </pattern>
+        </defs>
+        <rect width="100%" height="64" fill="url(#octave)" />
+        <rect width="100%" height="3" style="fill: var(--accent)" />
+      </svg>
+    </div>
+
+    <section class="wrap block">
+      <h2>What it does</h2>
+      <ol class="features">
+        {
+          features.map((f, i) => (
+            <li>
+              <span class="num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </section>
+
+    <section class="wrap block" id="install">
+      <h2>Install</h2>
+      <p class="intro">KMDashboard is a userscript: a small script your browser runs on the KMD’s page. Set it up once at home, with internet.</p>
+      <div class="columns">
+        {
+          install.map((group) => (
+            <div class="panel">
+              <h3>{group.title}</h3>
+              <ol class="numbered">
+                {group.steps.map((step) => (
+                  <li set:html={step} />
+                ))}
+              </ol>
+            </div>
+          ))
+        }
+      </div>
+      <div class="download">
+        <a class="button primary" href="/kmdashboard.user.js">Install the userscript</a>
+        <p class="small">The site asks for the password first. If the install does not start, save the file and add it to your userscript manager by hand.</p>
+      </div>
+
+      <h3 class="sub">At the piano</h3>
+      <ol class="numbered steps">
+        {piano.map((step) => <li set:html={step} />)}
+      </ol>
+      <p class="small">The original interface is still there: Piano tab, then Open original interface, or add <code>#original</code> to the address.</p>
+    </section>
+
+    <section class="wrap block" id="safety">
+      <h2>Careful with your KMD</h2>
+      <ul class="safety">
+        {
+          safety.map((s) => (
+            <li>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="wrap block" id="faq">
+      <h2>Questions</h2>
+      <div class="faq">
+        {
+          faq.map((item) => (
+            <details>
+              <summary>{item.q}</summary>
+              <p set:html={item.a} />
+            </details>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+</Site>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 48px;
+    align-items: center;
+    padding-top: 56px;
+    padding-bottom: 48px;
+  }
+  .eyebrow {
+    margin-bottom: 18px;
+    font: 600 11px var(--font);
+    color: var(--text-2);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+  }
+  h1 {
+    font: var(--w-figure) clamp(42px, 7.5vw, 76px)/1.04 var(--font);
+    letter-spacing: -0.02em;
+  }
+  .lead {
+    margin-top: 24px;
+    max-width: 32em;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--text-2);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 32px;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 0 24px;
+    border: 1px solid var(--text-1);
+    border-radius: 2px;
+    color: var(--text-1);
+    font: 500 15px var(--font);
+    letter-spacing: 0.01em;
+    transition: background 0.15s, color 0.15s;
+  }
+  .button:hover {
+    background: var(--fill-1);
+  }
+  .button.primary {
+    background: var(--text-1);
+    color: var(--bg);
+  }
+  .button.primary:hover {
+    background: color-mix(in srgb, var(--text-1) 86%, var(--bg));
+  }
+  .small {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--text-3);
+  }
+  .phone {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .hero {
+      grid-template-columns: minmax(0, 1fr) 340px;
+      padding-top: 88px;
+      padding-bottom: 72px;
+    }
+    .phone {
+      display: block;
+      width: 336px;
+      height: 674px;
+      padding: 10px;
+      border-radius: 50px;
+      background: #111;
+      box-shadow: 0 40px 90px rgb(0 0 0 / 0.2), 0 0 0 1px rgb(0 0 0 / 0.4);
+    }
+    .phone iframe {
+      width: 395px;
+      height: 817px;
+      border: 0;
+      border-radius: 50px;
+      transform: scale(0.8);
+      transform-origin: 0 0;
+      background: var(--bg);
+    }
+  }
+  /* A strip of keys with the red felt, between the introduction and the rest */
+  .keys svg {
+    display: block;
+  }
+  .keys {
+    border-bottom: 1px solid var(--border);
+  }
+  .block {
+    padding-top: 80px;
+  }
+  h2 {
+    margin-bottom: 28px;
+    padding-top: 14px;
+    border-top: 1px solid var(--rule);
+    font: 400 clamp(30px, 4.5vw, 40px)/1.1 var(--font);
+    letter-spacing: -0.01em;
+  }
+  .intro {
+    max-width: 36em;
+    margin: -8px 0 28px;
+    color: var(--text-2);
+  }
+  .features,
+  .safety {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0 40px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .features li,
+  .safety li {
+    padding: 20px 0 28px;
+    border-top: 1px solid var(--border);
+  }
+  .num {
+    display: block;
+    margin-bottom: 14px;
+    font: 500 14px var(--font);
+    color: var(--accent);
+  }
+  .features h3,
+  .safety h3 {
+    margin-bottom: 8px;
+    font: 500 20px/1.3 var(--font);
+  }
+  .features p,
+  .safety p {
+    font-size: 16px;
+    color: var(--text-2);
+  }
+  .columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0 40px;
+  }
+  .panel {
+    padding: 18px 0 24px;
+    border-top: 1px solid var(--border);
+  }
+  .panel h3 {
+    margin-bottom: 14px;
+    font: 500 20px/1.3 var(--font);
+  }
+  /* Steps numbered in the serif */
+  .numbered {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+    color: var(--text-2);
+    font-size: 16px;
+  }
+  .numbered li {
+    position: relative;
+    padding-left: 32px;
+    counter-increment: step;
+  }
+  .numbered li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    font: 600 15px/1.6 var(--font);
+    color: var(--text-1);
+  }
+  .numbered li + li {
+    margin-top: 12px;
+  }
+  .numbered :global(b) {
+    font-weight: 600;
+    color: var(--text-1);
+  }
+  .download {
+    margin: 32px 0 8px;
+  }
+  .sub {
+    margin: 56px 0 18px;
+    font: 400 26px/1.2 var(--font);
+  }
+  .steps {
+    max-width: 40em;
+  }
+  .faq {
+    border-bottom: 1px solid var(--border);
+  }
+  details {
+    border-top: 1px solid var(--border);
+  }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+    padding: 18px 0;
+    font: 500 18px/1.4 var(--font);
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary::after {
+    content: '+';
+    flex: none;
+    font: 300 24px/1 var(--font);
+    color: var(--text-3);
+    transition: transform 0.2s;
+  }
+  details[open] summary::after {
+    transform: rotate(45deg);
+  }
+  summary:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 5px;
+  }
+  details p {
+    max-width: 44em;
+    padding: 0 0 22px;
+    color: var(--text-2);
+    font-size: 16px;
+  }
+</style>

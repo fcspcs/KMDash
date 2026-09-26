@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KMD simulator</title>
+    <style>
+      body { margin: 0; padding: 24px; font: 15px/1.5 system-ui, sans-serif; }
+      h1 { font-size: 20px; }
+      #log { font: 13px ui-monospace, monospace; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <!--
+      Stand-in for the page the KMD serves at http://192.168.1.67. It connects the same way
+      (a global Socket created in window.onload, WebSocket on port 81), so the userscript's
+      takeover can be tested without the device. No code from the device is used here.
+    -->
+    <h1>KMD simulator</h1>
+    <p>This page stands in for the KMD's own interface. Readings from the simulator appear below.</p>
+    <div id="log"></div>
+    <script>
+      var Socket;
+      function init() {
+        Socket = new WebSocket('ws://' + window.location.hostname + ':81/');
+        Socket.onmessage = function (event) {
+          var msg = JSON.parse(event.data);
+          var line = msg.type === 'key_data' ? 'key_data  D ' + msg.average_downweight.toFixed(1) + '  U ' + msg.average_upweight.toFixed(1) : msg.type;
+          document.getElementById('log').textContent = line + '\n' + document.getElementById('log').textContent;
+        };
+      }
+      window.onload = function () {
+        init();
+      };
+    </script>
+  </body>
+</html>

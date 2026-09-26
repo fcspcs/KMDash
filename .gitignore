@@ -1,0 +1,17 @@
+# Dependencies and build
+node_modules/
+web/dist/
+web/.astro/
+web/public/kmdashboard.user.js
+.vercel/
+
+# Local recordings from tools/listen_kmd.py
+recordings/
+
+# Python
+__pycache__/
+*.pyc
+
+# System
+.DS_Store
+Thumbs.db

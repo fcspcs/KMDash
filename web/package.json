@@ -1,0 +1,23 @@
+{
+  "name": "kmdashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build:userscript && astro dev --host",
+    "build": "npm run build:userscript && astro build",
+    "build:userscript": "node scripts/build-userscript.mjs",
+    "preview": "astro preview --host",
+    "test": "node --test \"tests/**/*.test.js\"",
+    "samples": "node scripts/make-samples.mjs"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "^9.0.1",
+    "astro": "^7.3.5",
+    "svelte": "^5.57.1"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "vite": "^8.3.1"
+  }
+}
