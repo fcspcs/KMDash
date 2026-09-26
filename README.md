@@ -66,7 +66,7 @@ Then open `http://<your computer>:8080` on your phone or laptop. `tools/listen_k
 
 The app lives in `web/src/app` (Svelte 5), the userscript entry in `web/src/userscript`, the website in `web/src/pages`.
 
-The website is set up for Vercel. `middleware.js` keeps it behind a password, set `SITE_PASSWORD` in the project's environment variables.
+The public website is set up for Vercel.
 
 ## License
 

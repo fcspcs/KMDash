@@ -1,9 +1,0 @@
-{
-  "name": "kmdashboard-root",
-  "private": true,
-  "type": "module",
-  "description": "Vercel deployment: password middleware at the root, site built from web/",
-  "dependencies": {
-    "@vercel/functions": "^3.9.9"
-  }
-}
