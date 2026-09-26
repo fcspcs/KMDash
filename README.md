@@ -66,7 +66,7 @@ Then open `http://<your computer>:8080` on your phone or laptop. `tools/listen_k
 
 The app lives in `web/src/app` (Svelte 5), the userscript entry in `web/src/userscript`, the website in `web/src/pages`.
 
-The public website is set up for Vercel.
+The public website is set up for Vercel. Use `web` as the Root Directory; its `vercel.json` contains the Astro build settings.
 
 ## License
 
