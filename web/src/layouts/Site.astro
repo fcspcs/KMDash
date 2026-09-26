@@ -7,7 +7,7 @@ interface Props {
   description?: string;
 }
 const { title, description = 'A calm interface for the Renner Key Measuring Device, for phone and laptop.' } = Astro.props;
-const fonts = `@font-face{font-family:'KMDashboard Sans';src:url(${geist}) format('woff2');font-weight:100 900;font-display:swap}`;
+const fonts = `@font-face{font-family:'KMDash Sans';src:url(${geist}) format('woff2');font-weight:100 900;font-display:swap}`;
 ---
 
 <html lang="en">
@@ -25,7 +25,7 @@ const fonts = `@font-face{font-family:'KMDashboard Sans';src:url(${geist}) forma
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="/">KMD<span>ashboard</span></a>
+      <a class="brand" href="/">KMD<span>ash</span></a>
       <nav>
         <a href="/#install">Install</a>
         <a href="/#faq">Questions</a>
@@ -42,7 +42,7 @@ const fonts = `@font-face{font-family:'KMDashboard Sans';src:url(${geist}) forma
 <style is:global>
   :root {
     --w-figure: 500;
-    --font: 'KMDashboard Sans', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
+    --font: 'KMDash Sans', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
     --bg: #f6f5f0;
     --surface: #fbfaf7;
     --text-1: #141414;

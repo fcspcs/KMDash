@@ -47,10 +47,10 @@ function takeOver() {
   document.body.replaceChildren();
   document.body.removeAttribute('style');
   document.querySelectorAll('title').forEach((el) => el.remove());
-  document.title = 'KMDashboard';
+  document.title = 'KMDash';
   document.documentElement.lang = loadPrefs().lang || 'en';
   const root = document.createElement('div');
-  root.id = 'kmdashboard';
+  root.id = 'kmdash';
   document.body.append(root);
   mount(App, { target: root, props: { app: new AppState(createLiveSource()) } });
 }
@@ -69,8 +69,8 @@ function backButton() {
   document.body.append(button);
 }
 
-if (!window.__kmdashboard) {
-  window.__kmdashboard = true;
+if (!window.__kmdash) {
+  window.__kmdash = true;
   if (location.hash === '#original') backButton();
   else takeOver();
 }

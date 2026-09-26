@@ -1,14 +1,14 @@
-# KMDashboard
+# KMDash
 
 A phone and laptop interface for the Renner Key Measuring Device (KMD).
 
-The KMD's built-in web page is hard to use at the piano. KMDashboard replaces it with something you can use with one hand: large readings, a keyboard strip, guided measuring, before and after comparisons, your own targets and hints about what the force curve shows. On a laptop it spreads out over the wider screen.
+The KMD's built-in web page is hard to use at the piano. KMDash replaces it with something you can use with one hand: large readings, a keyboard strip, guided measuring, before and after comparisons, your own targets and hints about what the force curve shows. On a laptop it spreads out over the wider screen.
 
 This is an unofficial project. It is not made by, endorsed by or affiliated with Renner or the makers of the KMD.
 
 ## How it works
 
-The KMD opens its own WiFi and serves a small page at `http://192.168.1.67`. Readings come in over a WebSocket on port 81. On that WiFi the phone has no internet, and browsers don't let a secure website talk to the device. So KMDashboard is a userscript: your browser runs it on the KMD's own page, where it stops that page before it connects and shows the app instead.
+The KMD opens its own WiFi and serves a small page at `http://192.168.1.67`. Readings come in over a WebSocket on port 81. On that WiFi the phone has no internet, and browsers don't let a secure website talk to the device. So KMDash is a userscript: your browser runs it on the KMD's own page, where it stops that page before it connects and shows the app instead.
 
 Nothing is installed on the KMD. See [Device safety](#device-safety) for what the app sends.
 
@@ -18,7 +18,7 @@ Nothing is installed on the KMD. See [Device safety](#device-safety) for what th
    - iPhone and iPad: [Userscripts](https://apps.apple.com/app/userscripts/id1463298887), then turn it on in Safari's extension settings
    - Android: Firefox with Violentmonkey or Tampermonkey
    - Computer: Violentmonkey or Tampermonkey, or Userscripts in Safari on a Mac
-2. Build the script (see below) and add `web/public/kmdashboard.user.js` to the manager.
+2. Build the script (see below) and add `web/public/kmdash.user.js` to the manager.
 3. Switch the KMD to WiFi mode, join its network and open `http://192.168.1.67`.
 
 To use the KMD's own page, add `#original` to the address.
@@ -40,7 +40,7 @@ Everything is stored in your browser. Save a file now and then.
 
 ## Device safety
 
-KMDashboard only knows the commands the KMD's own page uses, sent the same way ([docs/PROTOCOL.md](docs/PROTOCOL.md)). On its own it only asks for the current settings. Changing a setting needs freshly loaded values and a review step, and only changed values are sent. Sensor calibration and factory reset need two confirmations. The calibration against test weights happens in the app and never touches the device.
+KMDash only knows the commands the KMD's own page uses, sent the same way ([docs/PROTOCOL.md](docs/PROTOCOL.md)). On its own it only asks for the current settings. Changing a setting needs freshly loaded values and a review step, and only changed values are sent. Sensor calibration and factory reset need two confirmations. The calibration against test weights happens in the app and never touches the device.
 
 Charge the KMD only with the charger that came with it.
 

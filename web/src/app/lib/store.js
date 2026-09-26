@@ -5,7 +5,7 @@
 import { findProfile } from './profiles.js';
 import { profileToTargets } from './targets.js';
 
-let PREFIX = 'kmdashboard:';
+let PREFIX = 'kmdash:';
 export const VERSION = 2;
 export const MAX_PER_KEY = 5;
 const CURVES_PER_KEY = 2; // older readings of a key keep only their values, to save storage
@@ -291,7 +291,7 @@ export function toProjectFile(instrument, valueOf) {
     keynumber_data: [],
     xyvalues_data: [],
     twwindow_data: [],
-    kmdashboard: { version: VERSION, instrument },
+    kmdash: { version: VERSION, instrument },
   };
   for (const key of Object.keys(run.keys).map(Number).filter((k) => k <= instrument.numKeys)) {
     const m = valueOf(key);
@@ -311,7 +311,7 @@ export function toProjectFile(instrument, valueOf) {
 export function fromProjectFile(text, fallbackName, runTitle) {
   const file = JSON.parse(text);
   if (!file || typeof file !== 'object') throw new Error('not a project file');
-  const extra = file.kmdashboard;
+  const extra = file.kmdash;
   // Our own files get a new ID so an import never overwrites an existing piano
   if (extra?.instrument?.runs) return { ...migrate(extra.instrument, runTitle), id: newId(), updated: Date.now() };
   if (extra?.keys) {

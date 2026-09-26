@@ -150,7 +150,7 @@
 
 <article class="kmd-report" lang={lang()}>
   <header class="cover">
-    <p class="kicker">KMDashboard · {t('report')}</p>
+    <p class="kicker">KMDash · {t('report')}</p>
     <h1>{inst.name}</h1>
     <dl class="facts">
       <div><dt>{t('rep_keyboard')}</dt><dd>{t('pianoMeta', { n: inst.numKeys, note: note(1) })}</dd></div>
@@ -512,7 +512,7 @@
 <style>
   /* Paper: always the light tokens, whatever the phone is set to */
   .kmd-report {
-    --font: 'KMDashboard Sans', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
+    --font: 'KMDash Sans', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
     --w-figure: 500;
     --bg: #ffffff;
     --surface: #ffffff;

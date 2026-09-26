@@ -35,11 +35,11 @@ const install = [
 const piano = [
   'Switch the KMD on in WiFi mode: hold the top button while switching on and let go at <b>WiFi mode</b>.',
   'Join the WiFi <b>KMD-…</b> with the password from the KMD manual. Stay connected even though there is no internet.',
-  'Open <code>http://192.168.1.67</code> in the browser. KMDashboard appears instead of the original interface.',
+  'Open <code>http://192.168.1.67</code> in the browser. KMDash appears instead of the original interface.',
 ];
 
 const safety = [
-  { title: 'It listens', text: 'Readings arrive from the KMD on their own. KMDashboard only asks for the settings when you open them.' },
+  { title: 'It listens', text: 'Readings arrive from the KMD on their own. KMDash only asks for the settings when you open them.' },
   { title: 'Only known commands', text: 'It can send exactly the commands of the original interface, in the same format. Anything else is blocked in the code.' },
   { title: 'Changes need you', text: 'Settings only after they were read from the KMD, only what you changed, with a summary first. Sensor calibration and factory reset need two confirmations.' },
   { title: 'Nothing on the device', text: 'No firmware, no install on the KMD. Remove the userscript and everything is as before.' },
@@ -50,7 +50,7 @@ const safety = [
 const faq = [
   { q: 'Why a userscript and not an app?', a: 'On the KMD WiFi there is no internet, and Safari does not let secure websites talk to the KMD. Running inside the KMD’s own page solves both. No app store, no account.' },
   { q: 'Does it change anything on my KMD?', a: 'Only when you change settings, calibrate the sensor or restore factory settings yourself, each with confirmation. Nothing is installed on the device.' },
-  { q: 'Why do my values differ from test weights?', a: 'The KMD averages over 2 to 4 mm of key travel at constant speed. Technicians report down weight a few grams higher and friction up to 6 to 8 g higher, while balance agrees. Calibrate with test weights once and KMDashboard converts all readings.' },
+  { q: 'Why do my values differ from test weights?', a: 'The KMD averages over 2 to 4 mm of key travel at constant speed. Technicians report down weight a few grams higher and friction up to 6 to 8 g higher, while balance agrees. Calibrate with test weights once and KMDash converts all readings.' },
   { q: 'What does the damper warning mean?', a: 'Touchweight is usually measured with the right pedal pressed. If it is not, the damper shows up as a step in the curve and can reach into the measuring window, so down and up weight read too high.' },
   { q: 'Where is my data?', a: 'In your browser. Save a file now and then. It also opens in the original interface.' },
   { q: 'Can I still use the original interface?', a: 'Yes. Piano tab, then Open original interface, or add <code>#original</code> to the address. Reload the page to come back.' },
@@ -59,13 +59,13 @@ const faq = [
 ];
 ---
 
-<Site title="KMDashboard">
+<Site title="KMDash">
   <main>
     <section class="hero wrap">
       <div class="hero-text">
         <p class="eyebrow">For the Renner Key Measuring Device</p>
         <h1>The KMD, made for your phone.</h1>
-        <p class="lead">KMDashboard replaces the built-in interface of the Renner Key Measuring Device with a calm view for one hand, and a roomy one on a laptop. Guided measuring, clear hints and before and after, right at the piano.</p>
+        <p class="lead">KMDash replaces the built-in interface of the Renner Key Measuring Device with a calm view for one hand, and a roomy one on a laptop. Guided measuring, clear hints and before and after, right at the piano.</p>
         <div class="actions">
           <a class="button primary" href="/demo/">Try the demo</a>
           <a class="button" href="#install">Install</a>
@@ -73,7 +73,7 @@ const faq = [
         <p class="small">Works offline on the KMD WiFi. Nothing is installed on the KMD.</p>
       </div>
       <div class="phone" aria-hidden="true">
-        <iframe src="/demo/" title="KMDashboard demo" loading="lazy" tabindex="-1"></iframe>
+        <iframe src="/demo/" title="KMDash demo" loading="lazy" tabindex="-1"></iframe>
       </div>
     </section>
 
@@ -108,7 +108,7 @@ const faq = [
 
     <section class="wrap block" id="install">
       <h2>Install</h2>
-      <p class="intro">KMDashboard is a userscript: a small script your browser runs on the KMD’s page. Set it up once at home, with internet.</p>
+      <p class="intro">KMDash is a userscript: a small script your browser runs on the KMD’s page. Set it up once at home, with internet.</p>
       <div class="columns">
         {
           install.map((group) => (
@@ -124,7 +124,7 @@ const faq = [
         }
       </div>
       <div class="download">
-        <a class="button primary" href="/kmdashboard.user.js">Install the userscript</a>
+        <a class="button primary" href="/kmdash.user.js">Install the userscript</a>
         <p class="small">If the install does not start, save the file and add it to your userscript manager by hand.</p>
       </div>
 

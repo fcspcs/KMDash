@@ -4,7 +4,7 @@ Useful for trying the app on a phone without the device. Open http://<computer-i
 
 Usage: python tools/simulate_kmd.py [--auto SECONDS] [--app]
   without --auto: press Enter to send the next reading
-  --app: add the built userscript (web/public/kmdashboard.user.js) to the page, so KMDashboard runs
+  --app: add the built userscript (web/public/kmdash.user.js) to the page, so KMDash runs
          without a userscript manager. Build it first: cd web && npm run build:userscript
 
 Port 81 may need admin rights on macOS and Linux.
@@ -23,7 +23,7 @@ from websockets.sync.server import serve
 ROOT = Path(__file__).resolve().parent.parent
 PAGE = Path(__file__).resolve().parent / "simulator" / "index.html"
 SAMPLES = ROOT / "web" / "src" / "app" / "sources" / "samples.json"
-USERSCRIPT = ROOT / "web" / "public" / "kmdashboard.user.js"
+USERSCRIPT = ROOT / "web" / "public" / "kmdash.user.js"
 
 
 class PageHandler(BaseHTTPRequestHandler):
@@ -34,9 +34,9 @@ class PageHandler(BaseHTTPRequestHandler):
         if path in ("/", "/index.html"):
             html = PAGE.read_text(encoding="utf-8")
             if self.inject_app:
-                html = html.replace("</body>", '<script src="/kmdashboard.user.js"></script>\n</body>')
+                html = html.replace("</body>", '<script src="/kmdash.user.js"></script>\n</body>')
             return self._send(html.encode("utf-8"), "text/html; charset=utf-8")
-        if path == "/kmdashboard.user.js" and self.inject_app:
+        if path == "/kmdash.user.js" and self.inject_app:
             return self._send(USERSCRIPT.read_bytes(), "application/javascript")
         self.send_error(404)
 
@@ -101,10 +101,10 @@ def main():
     parser.add_argument("--auto", type=float, help="send a reading every N seconds")
     parser.add_argument("--http-port", type=int, default=8080)
     parser.add_argument("--ws-port", type=int, default=81)
-    parser.add_argument("--app", action="store_true", help="run KMDashboard on the page")
+    parser.add_argument("--app", action="store_true", help="run KMDash on the page")
     args = parser.parse_args()
     if args.app and not USERSCRIPT.exists():
-        parser.error("web/public/kmdashboard.user.js is missing, run: cd web && npm run build:userscript")
+        parser.error("web/public/kmdash.user.js is missing, run: cd web && npm run build:userscript")
     PageHandler.inject_app = args.app
 
     samples = json.loads(SAMPLES.read_text(encoding="utf-8"))
@@ -115,7 +115,7 @@ def main():
     ws_server = serve(sim.handler, "0.0.0.0", args.ws_port)
     threading.Thread(target=ws_server.serve_forever, daemon=True).start()
 
-    print(f"KMD simulator with {len(sim.readings)} synthetic readings" + (" and KMDashboard" if args.app else ""), flush=True)
+    print(f"KMD simulator with {len(sim.readings)} synthetic readings" + (" and KMDash" if args.app else ""), flush=True)
     print(f"  Open on the phone: http://{lan_ip()}:{args.http_port}   (WebSocket on port {args.ws_port})")
     try:
         if args.auto:

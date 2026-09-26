@@ -19,8 +19,8 @@ globalThis.localStorage = {
 test('Old projects become pianos with one run, the profile becomes targets', () => {
   memory.clear();
   const old = { id: 'abc', name: 'Studio B', numKeys: 88, startNote: 0, profileId: 'steinway-hamburg-b', keys: { 40: [measurements[15]] }, history: [40], created: 1, updated: 2 };
-  localStorage.setItem('kmdashboard:project:abc', JSON.stringify(old));
-  localStorage.setItem('kmdashboard:index', JSON.stringify([{ id: 'abc', name: 'Studio B', updated: 2 }]));
+  localStorage.setItem('kmdash:project:abc', JSON.stringify(old));
+  localStorage.setItem('kmdash:index', JSON.stringify([{ id: 'abc', name: 'Studio B', updated: 2 }]));
   const inst = store.loadInstrument('abc', 'Run 1');
   assert.equal(inst.version, 2);
   assert.equal(inst.name, 'Studio B');
@@ -30,7 +30,7 @@ test('Old projects become pianos with one run, the profile becomes targets', () 
   assert.equal(store.activeRun(inst).keys[40][0].d, measurements[15].d);
   assert.equal(inst.targets.source, 'steinway-hamburg-b');
   // saved in the new format, index with the number of runs
-  assert.equal(JSON.parse(localStorage.getItem('kmdashboard:project:abc')).version, 2);
+  assert.equal(JSON.parse(localStorage.getItem('kmdash:project:abc')).version, 2);
   assert.equal(store.listInstruments()[0].runs, 1);
 });
 
@@ -95,8 +95,8 @@ test('Project file: format of the KMD page in and out, own files with all runs',
   assert.equal(back.runs.length, 2);
   assert.notEqual(back.id, inst.id, 'import never overwrites an existing piano');
 
-  // File from the KMD's own page (without kmdashboard)
-  const { kmdashboard, ...original } = file;
+  // File from the KMD's own page (without kmdash)
+  const { kmdash, ...original } = file;
   const imported = store.fromProjectFile(JSON.stringify(original), 'x', 'Run 1');
   assert.equal(imported.runs.length, 1);
   assert.equal(imported.runs[0].keys[3][0].d, measurements[16].d);

@@ -2,7 +2,7 @@
 node_modules/
 web/dist/
 web/.astro/
-web/public/kmdashboard.user.js
+web/public/kmdash.user.js
 .vercel/
 
 # Local recordings from tools/listen_kmd.py

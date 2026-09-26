@@ -204,7 +204,7 @@
 
   <footer class="about">
     <p>{t('about')}</p>
-    <p class="version">KMDashboard {APP_VERSION} · {t('lastDamperInfo', { note: noteName(inst.lastDamperKey ?? defaultLastDamperKey(inst.numKeys), inst.startNote) })}</p>
+    <p class="version">KMDash {APP_VERSION} · {t('lastDamperInfo', { note: noteName(inst.lastDamperKey ?? defaultLastDamperKey(inst.numKeys), inst.startNote) })}</p>
   </footer>
 </div>
 

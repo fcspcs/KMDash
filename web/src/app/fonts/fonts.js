@@ -9,5 +9,5 @@ let loaded = false;
 export function loadFonts() {
   if (loaded || typeof document === 'undefined' || !document.fonts || typeof FontFace === 'undefined') return;
   loaded = true;
-  document.fonts.add(new FontFace('KMDashboard Sans', `url(${geist}) format('woff2')`, { weight: '100 900', style: 'normal', display: 'swap' }));
+  document.fonts.add(new FontFace('KMDash Sans', `url(${geist}) format('woff2')`, { weight: '100 900', style: 'normal', display: 'swap' }));
 }

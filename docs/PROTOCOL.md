@@ -1,6 +1,6 @@
 # KMD WebSocket interface
 
-What KMDashboard knows about the KMD's web interface. Everything here was learned by using the device's own page and listening to the WebSocket, nothing was changed on the device to find it out.
+What KMDash knows about the KMD's web interface. Everything here was learned by using the device's own page and listening to the WebSocket, nothing was changed on the device to find it out.
 
 ## Network
 
@@ -46,7 +46,7 @@ What KMDashboard knows about the KMD's web interface. Everything here was learne
 
 ## Messages to the KMD
 
-| type | What it does | When KMDashboard sends it |
+| type | What it does | When KMDash sends it |
 |---|---|---|
 | `send_settings` | KMD answers with `settings_data`, read only | When the device settings open |
 | `set_calibration_weight` (`cal_weight_val`) | Sets the calibration weight | After review, only if changed |
@@ -55,13 +55,13 @@ What KMDashboard knows about the KMD's web interface. Everything here was learne
 | `start_calibration` | Starts sensor calibration | After two confirmations |
 | `restore_defaults` | Factory settings, calibration needed afterwards | After two confirmations |
 
-Values are sent as strings, the same way the KMD's own page sends them. On its own KMDashboard only sends `send_settings`. Settings are only sent after they were freshly read from the KMD, and only the values that changed. The allowed commands are listed in `web/src/app/sources/live.js`.
+Values are sent as strings, the same way the KMD's own page sends them. On its own KMDash only sends `send_settings`. Settings are only sent after they were freshly read from the KMD, and only the values that changed. The allowed commands are listed in `web/src/app/sources/live.js`.
 
 The calibration against test weights happens in the app and sends nothing.
 
 ## Files
 
-The KMD's own page keeps all readings in the browser tab. KMDashboard opens and saves the same formats.
+The KMD's own page keeps all readings in the browser tab. KMDash opens and saves the same formats.
 
 **Project file (JSON).** Arrays are indexed by key number, index 0 is empty.
 

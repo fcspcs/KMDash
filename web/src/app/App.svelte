@@ -58,7 +58,7 @@
 {#key app.lang}
   <div class="kmd-app" class:keyboard>
     <header class="topbar">
-      <p class="wordmark" aria-hidden="true">KMD<span>ashboard</span></p>
+      <p class="wordmark" aria-hidden="true">KMD<span>ash</span></p>
       <button class="project-name" onclick={() => (app.sheet = { type: 'project' })} aria-label={t('switchPiano')}>
         <span class="names">
           <span class="name">{app.instrument.name}</span>
@@ -124,7 +124,7 @@
   .kmd-app {
     /* Weight of large figures and titles: never thin, they have to read from arm's length */
     --w-figure: 500;
-    --font: 'KMDashboard Sans', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
+    --font: 'KMDash Sans', -apple-system, BlinkMacSystemFont, system-ui, 'Segoe UI', Roboto, sans-serif;
     --bg: #f6f5f0;
     --surface: #fbfaf7;
     --surface-raised: #ffffff;
