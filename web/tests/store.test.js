@@ -16,6 +16,15 @@ globalThis.localStorage = {
   removeItem: (k) => memory.delete(k),
 };
 
+test('Previous storage namespaces are copied into KMDash on first read', () => {
+  for (const [prefix, lang] of [['kmdashboard:', 'de'], ['kmd-mobile:', 'en']]) {
+    memory.clear();
+    localStorage.setItem(prefix + 'prefs', JSON.stringify({ lang }));
+    assert.equal(store.loadPrefs().lang, lang);
+    assert.equal(JSON.parse(localStorage.getItem('kmdash:prefs')).lang, lang);
+  }
+});
+
 test('Old projects become pianos with one run, the profile becomes targets', () => {
   memory.clear();
   const old = { id: 'abc', name: 'Studio B', numKeys: 88, startNote: 0, profileId: 'steinway-hamburg-b', keys: { 40: [measurements[15]] }, history: [40], created: 1, updated: 2 };
@@ -94,6 +103,10 @@ test('Project file: format of the KMD page in and out, own files with all runs',
   const back = store.fromProjectFile(text, 'x', 'Run 1');
   assert.equal(back.runs.length, 2);
   assert.notEqual(back.id, inst.id, 'import never overwrites an existing piano');
+
+  const previous = { ...file, kmdashboard: file.kmdash };
+  delete previous.kmdash;
+  assert.equal(store.fromProjectFile(JSON.stringify(previous), 'x', 'Run 1').runs.length, 2);
 
   // File from the KMD's own page (without kmdash)
   const { kmdash, ...original } = file;

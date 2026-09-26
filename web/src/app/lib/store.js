@@ -5,7 +5,9 @@
 import { findProfile } from './profiles.js';
 import { profileToTargets } from './targets.js';
 
-let PREFIX = 'kmdash:';
+const DEFAULT_PREFIX = 'kmdash:';
+const LEGACY_PREFIXES = ['kmdashboard:', 'kmd-mobile:'];
+let PREFIX = DEFAULT_PREFIX;
 export const VERSION = 2;
 export const MAX_PER_KEY = 5;
 const CURVES_PER_KEY = 2; // older readings of a key keep only their values, to save storage
@@ -36,7 +38,18 @@ export const DEFAULT_PREFS = {
 
 function read(key) {
   try {
-    return JSON.parse(localStorage.getItem(PREFIX + key));
+    const current = localStorage.getItem(PREFIX + key);
+    if (current != null) return JSON.parse(current);
+    if (PREFIX === DEFAULT_PREFIX) {
+      for (const legacyPrefix of LEGACY_PREFIXES) {
+        const legacy = localStorage.getItem(legacyPrefix + key);
+        if (legacy == null) continue;
+        const value = JSON.parse(legacy);
+        localStorage.setItem(PREFIX + key, legacy);
+        return value;
+      }
+    }
+    return null;
   } catch {
     return null;
   }
@@ -311,7 +324,7 @@ export function toProjectFile(instrument, valueOf) {
 export function fromProjectFile(text, fallbackName, runTitle) {
   const file = JSON.parse(text);
   if (!file || typeof file !== 'object') throw new Error('not a project file');
-  const extra = file.kmdash;
+  const extra = file.kmdash ?? file.kmdashboard ?? file.kmd_mobile;
   // Our own files get a new ID so an import never overwrites an existing piano
   if (extra?.instrument?.runs) return { ...migrate(extra.instrument, runTitle), id: newId(), updated: Date.now() };
   if (extra?.keys) {
