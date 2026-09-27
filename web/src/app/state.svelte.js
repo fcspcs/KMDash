@@ -310,7 +310,7 @@ export class AppState {
 
   deleteRun(id) {
     if (this.compareId === id) this.compareId = null;
-    this.#set(store.deleteRun(this.instrument, id));
+    this.#set(store.deleteRun(this.instrument, id, t('runDefault', { n: 1 })));
     if (this.compareId === this.run.id) this.compareId = null;
     this.#jumpToFirst();
   }

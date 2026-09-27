@@ -192,8 +192,13 @@ export function addRun(instrument, title, notes = '', conditions = {}) {
 
 export const editRun = (instrument, id, fields) => touch(instrument, { runs: instrument.runs.map((r) => (r.id === id ? { ...r, ...fields } : r)) });
 
-export function deleteRun(instrument, id) {
-  if (instrument.runs.length < 2) return instrument;
+/** Deletes a run. A piano always keeps one run: the last one is replaced by an empty run named emptyTitle. */
+export function deleteRun(instrument, id, emptyTitle) {
+  if (!instrument.runs.some((r) => r.id === id)) return instrument;
+  if (instrument.runs.length < 2) {
+    const run = createRun(emptyTitle || instrument.runs[0].title);
+    return touch(instrument, { runs: [run], activeRunId: run.id });
+  }
   const runs = instrument.runs.filter((r) => r.id !== id);
   return touch(instrument, { runs, activeRunId: instrument.activeRunId === id ? runs.at(-1).id : instrument.activeRunId });
 }

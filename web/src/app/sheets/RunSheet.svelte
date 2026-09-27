@@ -47,7 +47,7 @@
     app.sheet = {
       type: 'confirm',
       title: t('deleteRunTitle'),
-      message: t('deleteRunMessage', { title: target.title }),
+      message: t(app.instrument.runs.length > 1 ? 'deleteRunMessage' : 'deleteLastRunMessage', { title: target.title }),
       confirmLabel: t('delete'),
       danger: true,
       onconfirm: () => app.deleteRun(target.id),
@@ -89,7 +89,7 @@
   {/if}
   <p class="list-note inline">{t('conditionsNote')}</p>
 
-  {#if run && app.instrument.runs.length > 1}
+  {#if run}
     <button class="btn block ghost-danger" onclick={remove}>{t('deleteRun')}</button>
   {/if}
   {#snippet footer()}

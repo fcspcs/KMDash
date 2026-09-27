@@ -2,7 +2,7 @@
   import Sheet from '../components/Sheet.svelte';
   import Icon from '../components/Icon.svelte';
   import { profileGroups, profileName } from '../lib/profiles.js';
-  import { targetsLabel } from '../lib/labels.js';
+  import { targetsLabel, profileSummary } from '../lib/labels.js';
   import { t, lang } from '../lib/i18n.js';
 
   let { app } = $props();
@@ -47,7 +47,7 @@
       {#each profiles as p (p.id)}
         <li>
           <button class="row" onclick={() => choose(p.id)}>
-            <span class="grow">{profileName(p, lang())}{#if !common}<span class="sub">{confidence(p)}</span>{/if}</span>
+            <span class="grow">{profileName(p, lang())}<span class="sub">{[profileSummary(p), common ? '' : confidence(p)].filter(Boolean).join(' · ')}</span></span>
             {#if targets?.source === p.id && !targets.edited}<Icon name="check" size={18} />{/if}
           </button>
         </li>
