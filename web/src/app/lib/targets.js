@@ -29,20 +29,21 @@ export function standardSections(numKeys) {
 export function profileToTargets(profile, numKeys) {
   const all = { from: 1, to: numKeys };
   const metrics = { d: [], u: [], b: [], f: [], dip: [] };
-  const down = profile.down;
-  if (down?.sections) {
+  // Sections given for 88 keys, as slopes with a tolerance; a plain range for all keys otherwise
+  const add = (metric, spec) => {
+    if (!spec) return;
+    if (!spec.sections) return metrics[metric].push({ ...all, kind: 'range', min: spec.min ?? null, max: spec.max ?? null });
     let start = 0;
-    for (const [end, value] of down.sections) {
+    for (const [end, value] of spec.sections) {
       const from = Math.round((start * numKeys) / 88) + 1;
       const to = Math.min(numKeys, Math.round((end * numKeys) / 88));
       const [a, b] = Array.isArray(value) ? value : [value, value];
-      if (to >= from) metrics.d.push({ from, to, kind: 'slope', start: a, end: b, tol: down.tol ?? 2 });
+      if (to >= from) metrics[metric].push({ from, to, kind: 'slope', start: a, end: b, tol: spec.tol ?? 2 });
       start = end;
     }
-  } else if (down) {
-    metrics.d.push({ ...all, kind: 'range', min: down.min ?? null, max: down.max ?? null });
-  }
-  if (profile.up) metrics.u.push({ ...all, kind: 'range', min: profile.up.min ?? null, max: profile.up.max ?? null });
+  };
+  add('d', profile.down);
+  add('u', profile.up);
   if (profile.balance) metrics.b.push({ ...all, kind: 'range', min: profile.balance.min ?? null, max: profile.balance.max ?? null });
   if (profile.friction?.max != null) metrics.f.push({ ...all, kind: 'range', min: profile.friction.min ?? null, max: profile.friction.max });
   if (profile.keyDip) metrics.dip.push({ ...all, kind: 'range', min: profile.keyDip.min ?? null, max: profile.keyDip.max ?? null });

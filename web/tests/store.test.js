@@ -57,7 +57,12 @@ test('A new run leaves the old one unchanged', () => {
   assert.equal(inst.runs[1].notes, 'after cleaning');
   inst = store.deleteRun(inst, inst.activeRunId);
   assert.equal(inst.activeRunId, first);
-  assert.equal(store.deleteRun(inst, first).runs.length, 1, 'the last run stays');
+  const replaced = store.deleteRun(inst, first, 'Run 1');
+  assert.equal(replaced.runs.length, 1, 'a piano keeps one run');
+  assert.notEqual(replaced.runs[0].id, first, 'the last run is replaced by an empty one');
+  assert.deepEqual(replaced.runs[0].keys, {});
+  assert.equal(replaced.runs[0].title, 'Run 1');
+  assert.equal(replaced.activeRunId, replaced.runs[0].id);
 });
 
 test('Several readings: the value is the last reading or the median', () => {

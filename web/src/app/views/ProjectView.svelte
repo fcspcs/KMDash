@@ -41,10 +41,13 @@
     app.sheet = {
       type: 'confirm',
       title: t('deletePianoTitle'),
-      message: t('deletePianoMessage', { name: entry.name }),
+      message: t(app.instruments.length > 1 ? 'deletePianoMessage' : 'deleteLastPianoMessage', { name: entry.name }),
       confirmLabel: t('delete'),
       danger: true,
-      onconfirm: () => app.deleteInstrument(entry.id),
+      onconfirm: () => {
+        app.deleteInstrument(entry.id);
+        app.notify(t('pianoDeleted', { name: entry.name }));
+      },
     };
   }
 

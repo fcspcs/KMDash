@@ -3,7 +3,8 @@
   import NotePicker from '../components/NotePicker.svelte';
   import { NOTES } from '../lib/notes.js';
   import { defaultLastDamperKey } from '../lib/store.js';
-  import { t } from '../lib/i18n.js';
+  import { profileGroups, profileName, findProfile } from '../lib/profiles.js';
+  import { t, lang } from '../lib/i18n.js';
 
   let { app, created = false } = $props();
 
@@ -21,6 +22,9 @@
   let serial = $state(inst.info?.serial ?? '');
   // svelte-ignore state_referenced_locally
   let technician = $state(inst.info?.technician || app.prefs.technician || '');
+  // New piano: the maker's targets for a model, and its name when no own name is given
+  let model = $state('');
+  const modelName = $derived(model ? profileName(findProfile(model), lang()) : '');
 
   const keys = $derived(Math.min(108, Math.max(1, Math.round(Number(numKeys)) || 88)));
   const validKeys = $derived(Number.isFinite(Number(numKeys)) && Number(numKeys) >= 1 && Number(numKeys) <= 108);
@@ -29,12 +33,13 @@
 
   function save() {
     app.editInstrument({
-      name: name.trim() || inst.name || t('unnamed'),
+      name: name.trim() || modelName || inst.name || t('unnamed'),
       numKeys: keys,
       startNote: Number(startNote),
       lastDamperKey: customDamper ? Math.min(lastDamper, keys) : null,
       info: { client: client.trim(), place: place.trim(), serial: serial.trim(), technician: technician.trim() },
     });
+    if (created && model) app.loadProfile(model);
     if (technician.trim()) {
       app.prefs.technician = technician.trim();
       app.savePrefs();
@@ -46,8 +51,22 @@
 <Sheet title={created ? t('newPiano') : t('editPiano')} onclose={close}>
   <label class="field">
     <span>{t('pianoName')}</span>
-    <input class="input" bind:value={name} maxlength="40" placeholder={t('pianoNamePlaceholder')} />
+    <input class="input" bind:value={name} maxlength="40" placeholder={modelName || t('pianoNamePlaceholder')} />
   </label>
+  {#if created}
+    <label class="field">
+      <span>{t('modelPreset')}</span>
+      <select class="input" bind:value={model}>
+        <option value="">{t('modelPresetNone')}</option>
+        {#each profileGroups() as [group, profiles]}
+          <optgroup label={group}>
+            {#each profiles as p (p.id)}<option value={p.id}>{profileName(p, lang())}</option>{/each}
+          </optgroup>
+        {/each}
+      </select>
+    </label>
+    <p class="list-note inline gap">{t('modelPresetNote')}</p>
+  {/if}
   <div class="two">
     <label class="field">
       <span>{t('numKeys')}</span>
@@ -111,6 +130,9 @@
   .inline {
     margin: 0;
     padding: 0 2px;
+  }
+  .inline.gap {
+    margin: -6px 0 18px;
   }
   .part {
     margin: 28px 0 14px;
