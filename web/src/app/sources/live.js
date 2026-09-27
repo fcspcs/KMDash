@@ -4,7 +4,14 @@
 const ALLOWED = new Set(['send_settings', 'set_calibration_weight', 'set_tw_window', 'set_stop_weight', 'start_calibration', 'restore_defaults']);
 const STALE_AFTER_HIDDEN_MS = 10000;
 
-export function createLiveSource(url = `ws://${location.hostname}:81/`) {
+/** The KMD's fixed address on its own WiFi (from the KMD manual). */
+export const KMD_HOST = '192.168.1.67';
+
+/**
+ * url: the KMD's WebSocket. On the KMD's page (userscript) the page's own host, on the website the fixed address.
+ * direct: true when the app runs on the website and reaches the KMD from there (Chrome and Edge, see lib/direct.js).
+ */
+export function createLiveSource(url = `ws://${location.hostname}:81/`, { direct = false } = {}) {
   const listeners = { message: new Set(), status: new Set() };
   let socket = null;
   let retries = 0;
@@ -51,9 +58,12 @@ export function createLiveSource(url = `ws://${location.hostname}:81/`) {
 
   return {
     kind: 'live',
+    direct,
     get status() {
       return status;
     },
+    /** Try again right away, for example after the browser was allowed to reach the KMD. */
+    reconnect: open,
     on(type, fn) {
       listeners[type].add(fn);
       return () => listeners[type].delete(fn);

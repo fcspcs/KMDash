@@ -25,7 +25,9 @@
   legend for 2+ series, text in ink colors never series colors.
 
 ## Code
-- `web/src/app` is shared by the userscript build (runs on the KMD page) and the Astro demo page.
+- `web/src/app` is shared by the userscript build (runs on the KMD page, phones), the website app at `/app/`
+  (computers: Chrome and Edge 147+ reach the KMD directly after the local network permission, offline via
+  `src/sw`) and the Astro demo page.
   No external requests at runtime: the phone is offline on the KMD WiFi.
 - Svelte 5 runes. Styles scoped in components, shared utility classes in `App.svelte` (`.btn`, `.list`, `.row`, `.field`, `.input`).
 - Analysis logic in `web/src/app/lib/analysis.js` is tested with synthetic curves shaped like real ones

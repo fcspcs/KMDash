@@ -8,20 +8,22 @@ This is an unofficial project. It is not made by, endorsed by or affiliated with
 
 ## How it works
 
-The KMD opens its own WiFi and serves a small page at `http://192.168.1.67`. Readings come in over a WebSocket on port 81. On that WiFi the phone has no internet, and browsers don't let a secure website talk to the device. So KMDash is a userscript: your browser runs it on the KMD's own page, where it stops that page before it connects and shows the app instead.
+The KMD opens its own WiFi and serves a small page at `http://192.168.1.67`. Readings come in over a WebSocket on port 81, without encryption. On that WiFi there is no internet, and browsers normally don't let a secure website talk to such a device. KMDash gets there in two ways:
+
+- **Computer:** Chrome and Edge from version 147 let a secure site reach a device on the local network once you allow it. KMDash runs straight from the website at `/app/`, installs as an app and opens offline (service worker in `web/src/sw`).
+- **Phone and tablet:** Safari and Firefox have no such permission, so KMDash is a userscript there: the browser runs it on the KMD's own page, where it stops that page before it connects and shows the app instead.
 
 Nothing is installed on the KMD. See [Device safety](#device-safety) for what the app sends.
 
 ## Install
 
-1. Get a userscript manager:
-   - iPhone and iPad: [Userscripts](https://apps.apple.com/app/userscripts/id1463298887), then turn it on in Safari's extension settings
-   - Android: Firefox with Violentmonkey or Tampermonkey
-   - Computer: Violentmonkey or Tampermonkey, or Userscripts in Safari on a Mac
-2. Build the script (see below) and add `web/public/kmdash.user.js` to the manager.
-3. Switch the KMD to WiFi mode, join its network and open `http://192.168.1.67`.
+The website has a step by step guide per device (section Install). In short:
 
-To use the KMD's own page, add `#original` to the address.
+- **Computer (Chrome or Edge 147+):** open `/app/` on the website, install it as an app. At the piano join the KMD WiFi, open KMDash and allow access to the local network when the browser asks.
+- **iPhone and iPad:** install [Userscripts](https://apps.apple.com/app/userscripts/id1463298887), allow the extension in Settings, Apps, Safari, Extensions, then open `kmdash.user.js` from the website in Safari and install it from the extension menu. At the piano join the KMD WiFi and open `http://192.168.1.67`.
+- **Android:** Firefox with Violentmonkey (or Tampermonkey), open `kmdash.user.js` and confirm. Keep the phone on the KMD WiFi without switching to mobile data, then open `http://192.168.1.67`.
+
+To use the KMD's own page from the userscript, add `#original` to the address.
 
 ## Features
 
@@ -36,7 +38,7 @@ To use the KMD's own page, add `#original` to the address.
 - Opens and saves the JSON and CSV files of the KMD's own page, plus a detailed CSV for your own spreadsheets; several files come in one ZIP
 - Phone and laptop layouts, English and German, light and dark
 
-Everything is stored in your browser. Save a file now and then.
+Everything is stored in the browser of each device. Save a file after each job, and use it to move a piano between phone and computer.
 
 ## Device safety
 
