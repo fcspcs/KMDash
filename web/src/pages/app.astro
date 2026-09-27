@@ -1,0 +1,39 @@
+---
+// KMDash straight from the website, for Chrome and Edge on a computer. Installable, works offline on the KMD WiFi.
+import DirectApp from '../components/DirectApp.svelte';
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f6f5f0" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f0e" media="(prefers-color-scheme: dark)" />
+    <title>KMDash</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="/manifest.webmanifest" crossorigin="use-credentials" />
+    <style is:global>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: #f6f5f0;
+      }
+      @media (prefers-color-scheme: dark) {
+        html,
+        body {
+          background: #0f0f0e;
+        }
+      }
+    </style>
+    <script>
+      // Keeps the app on this computer, so it opens on the KMD WiFi without internet (src/sw/service-worker.js)
+      if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js', { scope: '/app/' }).catch(() => {});
+    </script>
+  </head>
+  <body>
+    <DirectApp client:only="svelte" />
+  </body>
+</html>

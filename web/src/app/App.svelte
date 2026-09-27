@@ -16,6 +16,8 @@
   import CalibrationSheet from './sheets/CalibrationSheet.svelte';
   import HintsSheet from './sheets/HintsSheet.svelte';
   import ExportSheet from './sheets/ExportSheet.svelte';
+  import ConnectSheet from './sheets/ConnectSheet.svelte';
+  import DirectNotice from './components/DirectNotice.svelte';
   import Icon from './components/Icon.svelte';
   import { unlockAudio } from './state.svelte.js';
   import { t } from './lib/i18n.js';
@@ -71,6 +73,8 @@
 
     {#if !app.storageOk}
       <div class="banner" role="alert"><Icon name="warn" size={16} />{t('storageFull')}</div>
+    {:else if app.source.direct}
+      <DirectNotice {app} />
     {/if}
 
     <main class="content" bind:this={content}>
@@ -110,6 +114,7 @@
     {:else if app.sheet?.type === 'calibration'}<CalibrationSheet {app} />
     {:else if app.sheet?.type === 'hints'}<HintsSheet {app} />
     {:else if app.sheet?.type === 'export'}<ExportSheet {app} />
+    {:else if app.sheet?.type === 'connect'}<ConnectSheet {app} />
     {:else if app.sheet?.type === 'confirm'}{#key app.sheet}<ConfirmSheet {app} {...app.sheet} />{/key}
     {/if}
   </div>

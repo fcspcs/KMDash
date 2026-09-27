@@ -7,6 +7,7 @@
   import { keyCsv, toProjectFile, fromProjectFile, measuredCount, defaultLastDamperKey, clearAll } from '../lib/store.js';
   import { targetsLabel, HINT_GROUPS } from '../lib/labels.js';
   import { t } from '../lib/i18n.js';
+  import { KMD_HOST } from '../sources/live.js';
 
   let { app } = $props();
 
@@ -52,7 +53,13 @@
     app.sheet = { type: 'instrument', created: true };
   }
 
+  // Userscript: the KMD's own page, stopped by the script, comes back with #original.
+  // Website: the KMD's page in this tab, so only one of the two is connected to the KMD.
   function openOriginal() {
+    if (app.source.direct) {
+      location.href = `http://${KMD_HOST}/`;
+      return;
+    }
     location.hash = 'original';
     location.reload();
   }
@@ -177,7 +184,7 @@
         <li><button class="row" onclick={() => (clearAll(), location.reload())}><span class="icon"><Icon name="reset" size={18} /></span><span class="grow">{t('resetDemo')}<span class="sub">{t('resetDemoSub')}</span></span></button></li>
       {/if}
       {#if live}
-        <li><button class="row" onclick={openOriginal}><span class="icon"><Icon name="external" size={18} /></span><span class="grow">{t('originalUi')}<span class="sub">{t('originalUiSub')}</span></span></button></li>
+        <li><button class="row" onclick={openOriginal}><span class="icon"><Icon name="external" size={18} /></span><span class="grow">{t('originalUi')}<span class="sub">{t(app.source.direct ? 'originalUiSubDirect' : 'originalUiSub')}</span></span></button></li>
       {/if}
     </ul>
     <p class="list-note">{t('deviceNote')}</p>
